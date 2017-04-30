@@ -34,6 +34,8 @@ Database g_dDB = null;
 
 KeyValues g_kvConf = null;
 
+int gNameOffset = -1;
+
 // int g_iWeaponPSite[MAXPLAYERS + 1] =  { 0, ... };
 
 #define WP_COMMUNITYID 32
@@ -107,6 +109,8 @@ public void OnPluginStart()
 	{
 		UpdatePaintsConfig();
 	}
+	
+	gNameOffset = FindSendPropInfo("CBaseCombatWeapon", "m_szCustomName");
 }
 
 public void OnConfigsExecuted()
@@ -213,6 +217,10 @@ public void OnWeaponEquipPost(int client, int weapon)
 					SetEntPropFloat(weapon, Prop_Send, "m_flFallbackWear", iCache[pC_fWear]);
 					SetEntProp(weapon, Prop_Send, "m_nFallbackSeed", iCache[pC_iSeed]);
 					SetEntProp(weapon, Prop_Send, "m_iEntityQuality", iCache[pC_iQuality]);
+					
+					char sName[512];
+					Format(sName, sizeof(sName), "<font size='50' color='#ff0000'>...</font>");
+					SetEntDataString(weapon, gNameOffset, sName, sizeof(sName), true);
 					
 					int accountID = GetSteamAccountID(client);
 					SetEntProp(weapon, Prop_Send, "m_iAccountID", accountID);
