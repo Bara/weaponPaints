@@ -22,13 +22,17 @@ void SetClientSkin(int client, int iWeapon = -1, int skinIndex, int weaponIndex,
 	
 	if (iWeapon != -1)
 	{
-		CSGOItems_RemoveWeapon(client, iWeapon);
+		bool bSuccess = CSGOItems_RemoveWeapon(client, iWeapon);
 		
-		DataPack pack = new DataPack();
-		RequestFrame(Frame_GivePlayerItem, pack);
-		pack.WriteCell(GetClientUserId(client));
-		pack.WriteString(sClass);
-		pack.WriteCell(iMenu);
+		if (bSuccess)
+		{
+			DataPack pack = new DataPack();
+			RequestFrame(Frame_GivePlayerItem, pack);
+			pack.WriteCell(GetClientUserId(client));
+			pack.WriteString(sClass);
+			pack.WriteCell(iMenu);
+			pack.WriteCell(weaponIndex);
+		}
 	}
 }
 
@@ -39,6 +43,7 @@ public void Frame_GivePlayerItem(any pack)
 	char sClass[WP_CLASSNAME];
 	ReadPackString(pack, sClass, sizeof(sClass));
 	int iMenu = ReadPackCell(pack);
+	int weaponIndex = ReadPackCell(pack);
 	delete view_as<DataPack>(pack);
 	
 	if(IsClientValid(client))
