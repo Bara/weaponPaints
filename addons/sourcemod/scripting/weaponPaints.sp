@@ -201,9 +201,6 @@ public void OnWeaponEquipPost(int client, int weapon)
 					
 					SetEntProp(weapon, Prop_Send, "m_iItemIDLow", -1);
 					
-					// Yea @Franc1sco this is the "magic piece"?
-					SetEntProp(weapon, Prop_Send, "m_iAccountID", GetEntProp(weapon, Prop_Send, "m_OriginalOwnerXuidLow"));
-					
 					SetEntProp(weapon, Prop_Send, "m_nFallbackPaintKit", iCache[pC_iDefIndex]);
 					SetEntPropFloat(weapon, Prop_Send, "m_flFallbackWear", iCache[pC_fWear]);
 					SetEntProp(weapon, Prop_Send, "m_nFallbackSeed", iCache[pC_iSeed]);
@@ -212,9 +209,6 @@ public void OnWeaponEquipPost(int client, int weapon)
 					char sName[512];
 					Format(sName, sizeof(sName), "<font size='50' color='#ff0000'>...</font>");
 					SetEntDataString(weapon, gNameOffset, sName, sizeof(sName), true);
-					
-					int accountID = GetSteamAccountID(client);
-					SetEntProp(weapon, Prop_Send, "m_iAccountID", accountID);
 					
 					if (g_bDebug)
 					{
