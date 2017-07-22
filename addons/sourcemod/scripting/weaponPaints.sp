@@ -113,15 +113,6 @@ public void OnPluginStart()
 	gNameOffset = FindSendPropInfo("CBaseCombatWeapon", "m_szCustomName");
 }
 
-public void OnConfigsExecuted()
-{
-	if (g_bShowAsOfficialDS)
-	{
-		GameRules_SetProp("m_bIsValveDS", 1); // But we can report the server as false inventory... 
-		GameRules_SetProp("m_bIsQuestEligible", 1); // Do we need this?
-	}
-}
-
 public void OnClientPutInServer(int client)
 {
 	SDKHook(client, SDKHook_WeaponEquipPost, OnWeaponEquipPost);
