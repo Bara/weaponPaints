@@ -23,7 +23,6 @@ bool g_bFlagCheck = false;
 bool g_bDontAddGloves = false;
 bool g_bChangeC4 = false;
 bool g_bChangeGrenade = false;
-bool g_bShowAsOfficialDS = true;
 bool g_bShowKnifeSeedMessage = true;
 
 bool g_bReady[MAXPLAYERS + 1] =  { false, ... };
@@ -235,7 +234,7 @@ public Action Command_WS(int client, int args)
 	menu.AddItem("current", "Skin der aktuellen Waffe ändern");
 	menu.AddItem("weapon", "Skin einer Waffe ändern");
 	menu.AddItem("wear", "Wear anpassen");
-	menu.AddItem("seed", "Seed anpassen");
+	/* menu.AddItem("seed", "Seed anpassen"); */
 	menu.ExitButton = true;
 	
 	menu.Display(client, MENU_TIME_FOREVER);
