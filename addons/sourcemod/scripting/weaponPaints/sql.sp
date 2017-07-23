@@ -92,38 +92,35 @@ public void SQL_LoadClientPaints(Database db, DBResultSet results, const char[] 
 			{
 				while (results.FetchRow())
 				{
-					if (g_bDebug)
+					char sClass[WP_CLASSNAME], sCommunityID[WP_COMMUNITYID], sFlag[WP_FLAG];
+					int iDefIndex, iSeed, iQuality;
+					float fWear;
+
+					results.FetchString(0, sCommunityID, sizeof(sCommunityID));
+					results.FetchString(1, sClass, sizeof(sClass));
+					iDefIndex = results.FetchInt(2);
+					fWear = results.FetchFloat(3);
+					iSeed = results.FetchInt(4);
+					iQuality = results.FetchInt(5);
+					results.FetchString(6, sFlag, sizeof(sFlag));
+
+					if (strlen(sClass) > 7)
 					{
-						char sClass[WP_CLASSNAME], sCommunityID[WP_COMMUNITYID], sFlag[WP_FLAG];
-						int iDefIndex, iSeed, iQuality;
-						float fWear;
-						
-						results.FetchString(0, sCommunityID, sizeof(sCommunityID));
-						results.FetchString(1, sClass, sizeof(sClass));
-						iDefIndex = results.FetchInt(2);
-						fWear = results.FetchFloat(3);
-						iSeed = results.FetchInt(4);
-						iQuality = results.FetchInt(5);
-						results.FetchString(6, sFlag, sizeof(sFlag));
-						
-						if (strlen(sClass) > 7)
+						int iCache[paintsCache];
+
+						strcopy(iCache[pC_sCommunityID], WP_COMMUNITYID, sCommunityID);
+						strcopy(iCache[pC_sClassName], WP_CLASSNAME, sClass);
+						iCache[pC_iDefIndex] = iDefIndex;
+						iCache[pC_fWear] = fWear;
+						iCache[pC_iSeed] = iSeed;
+						iCache[pC_iQuality] = iQuality;
+						strcopy(iCache[pC_sFlag], WP_FLAG, sFlag);
+
+						g_aCache.PushArray(iCache[0]);
+
+						if (g_bDebug)
 						{
-							int iCache[paintsCache];
-							
-							strcopy(iCache[pC_sCommunityID], WP_COMMUNITYID, sCommunityID);
-							strcopy(iCache[pC_sClassName], WP_CLASSNAME, sClass);
-							iCache[pC_iDefIndex] = iDefIndex;
-							iCache[pC_fWear] = fWear;
-							iCache[pC_iSeed] = iSeed;
-							iCache[pC_iQuality] = iQuality;
-							strcopy(iCache[pC_sFlag], WP_FLAG, sFlag);
-							
-							g_aCache.PushArray(iCache[0]);
-							
-							if (g_bDebug)
-							{
-								LogMessage("[SQL_LoadClientPaints] Player: \"%L\" - CommunityID: %s - Classname: %s - DefIndex: %d - Wear: %.4f - Seed: %d - Quality: %d - Flag: %s", client, iCache[pC_sCommunityID], iCache[pC_sClassName], iCache[pC_iDefIndex], iCache[pC_fWear], iCache[pC_iSeed], iCache[pC_iQuality], iCache[pC_sFlag]);
-							}
+							LogMessage("[SQL_LoadClientPaints] Player: \"%L\" - CommunityID: %s - Classname: %s - DefIndex: %d - Wear: %.4f - Seed: %d - Quality: %d - Flag: %s", client, iCache[pC_sCommunityID], iCache[pC_sClassName], iCache[pC_iDefIndex], iCache[pC_fWear], iCache[pC_iSeed], iCache[pC_iQuality], iCache[pC_sFlag]);
 						}
 					}
 				}
